@@ -18,11 +18,10 @@
 
 
 --练习3.2 解释下列表达式之所以得出相应结果的原因。(注意:整型算术运算总是会回环)
---TODO
 print(math.maxinteger * 2)  -- => maxinteger +  (maxinteger + 1) - 1 => maxinteger + mininteger - 1 =>  -1 + -1 => -2
-print(math.mininteger * 2)  -- => mininteger + (mininteger - 1) + 1 => mininteger + maxinteger + 1 => -1 + 1 => 0
-print(math.maxinteger * math.maxinteger) -- 1
-print(math.mininteger * math.mininteger) -- 0
+print(math.mininteger * 2)  -- => mininteger +  (mininteger - 1) + 1 => mininteger + maxinteger + 1 =>  -1 +  1 => 0
+print(math.maxinteger * math.maxinteger) -- => maxinteger * (mininteger - 1) => mininteger - maxinteger => 1
+print(math.mininteger * math.mininteger) -- => mininteger * (maxinteger + 1) => mininteger + mininteger => 0
 
 --练习3.3 下列代码的输出结果是什么?
 for i = -10, 10 do
