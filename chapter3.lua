@@ -17,10 +17,9 @@
 -- 0.1e1       有效  1.0
 -- 0x0.1p1     有效  0.125
 
-
 ---练习3.2 解释下列表达式之所以得出相应结果的原因。(注意:整型算术运算总是会回环)
-print(math.maxinteger * 2)  -- => maxinteger +  (maxinteger + 1) - 1 => maxinteger + mininteger - 1 =>  -1 + -1 => -2
-print(math.mininteger * 2)  -- => mininteger +  (mininteger - 1) + 1 => mininteger + maxinteger + 1 =>  -1 +  1 => 0
+print(math.maxinteger * 2)               -- => maxinteger +  (maxinteger + 1) - 1 => maxinteger + mininteger - 1 =>  -1 + -1 => -2
+print(math.mininteger * 2)               -- => mininteger +  (mininteger - 1) + 1 => mininteger + maxinteger + 1 =>  -1 +  1 => 0
 print(math.maxinteger * math.maxinteger) -- => maxinteger * (mininteger - 1) => mininteger - maxinteger => 1
 print(math.mininteger * math.mininteger) -- => mininteger * (maxinteger + 1) => mininteger + mininteger => 0
 
