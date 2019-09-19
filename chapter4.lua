@@ -140,6 +140,9 @@ function string.utf8reverse(str)
     if not str then
         error("the argument#1 is nil!")
     end
+	if str == "" then
+	   return str
+	end
     local array = { utf8.codepoint(str, utf8.offset(str, 1) , utf8.offset(str,-1) ) }
     local rArray = {}
     local len = #array
