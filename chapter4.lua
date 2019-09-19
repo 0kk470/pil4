@@ -161,6 +161,7 @@ local function ispali_utf8(str)
     return str == string.utf8reverse(str)
 end
 
+
 print(ispali_utf8("上海自来水来自海上"))
 print(ispali_utf8("上海    自 来 水来   自海上"))
 print(ispali_utf8("上海  ,,,  自?? 来 水来  ? 自海上"))
