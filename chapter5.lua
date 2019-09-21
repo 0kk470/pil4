@@ -1,4 +1,4 @@
---练习5.3
+--练习5.3 下列代码的输出是什么？为什么？
 sunday = "monday";monday = "sunday"
 t = {sunday = "monday",[sunday] = monday} -- => t = { ["sunday"] = "monday" , ["monday"] = "sunday" }
 print(t.sunday,t[sunday],t[t.sunday])     -- => print(t["sunday"],t["monday"],t["monday"])
@@ -6,16 +6,19 @@ print(t.sunday,t[sunday],t[t.sunday])     -- => print(t["sunday"],t["monday"],t[
 
 
 
----练习5.2
+---练习5.2 考虑如下代码
 local a = {}
 a.a = a
+---a.a.a.a的值是什么 每个a都一样吗
 print(a)
 print(a.a)
 print(a.a.a)
 print(a.a.a.a)
---一样 都是table的内存地址名
+-- 一样 都是table的内存地址
 
--- a.a.a.a = 3 --报错
+---如果将下列代码追加到上述代码中,现在a.a.a.a的值变成了什么?
+-- a.a.a.a = 3 
+-- a.a变成了3 不再是表 后续的表字段访问会报错
 
 
 ---练习5.3
