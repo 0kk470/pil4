@@ -9,7 +9,7 @@ print(t.sunday,t[sunday],t[t.sunday])     -- => print(t["sunday"],t["monday"],t[
 ---练习5.2 考虑如下代码
 local a = {}
 a.a = a
----a.a.a.a的值是什么 每个a都一样吗
+--- a.a.a.a的值是什么 每个a都一样吗
 print(a)
 print(a.a)
 print(a.a.a)
@@ -22,26 +22,47 @@ print(a.a.a.a)
 
 
 ---练习5.3
---TODO
+---假设要创建一个以转义序列为值，以转义序列对应字符串为键的表（参见4.1节）。
+---请问应该如何编写构造器?
+local t = 
+{
+   ["newLine"] = "\n",
+   ["alarm"]   = "\a",
+   ["backSpace"]   = "\b",
+}
+print("Line".. t.newLine .. "Line")
 
----练习5.4
-local function CaculatePolynomial(a,x)
+---练习5.4 在Lua语言中，我们可以使用由系数组成的列表{a0,a1,....,an}来表达多项式an * x^n + an-1 *x^n-1 + .... + a1x + a0
+---请编写一个函数，该函数以多项式(使用table表示)和值x为参数，返回结果为对应多项式的值。
+local function CalculatePolynomial(a,x)
    local result = 0
    x = x or 0
    if type(a) ~= "table" or #a <= 0 then
       return result
    end
    for i = 1,#a do
-     result = result + a[i] * x^i
+     result = result + a[i] * x^(i-1)
    end
    return result
 end
-print( CaculatePolynomial({1,2,3},2) )
+print( CalculatePolynomial({1,2,3},2) )
 
----练习5.5
---TODO
+---练习5.5 改写上述函数，使之最多使用n个加法和n个乘法（且没有指数）
+local function CalculatePolynomial2(a,x)
+   local result = 0
+   x = x or 0
+   if type(a) ~= "table" or #a <= 0 then
+      return result
+   end
+   for i = #a,1,-1 do
+     result = a[i] + result * x
+   end
+   return result
+end
+print( CalculatePolynomial2({1,2,3},2) )
 
----练习5.6
+
+---练习5.6 请编写一个函数，该函数用于测试指定的表是否为有效的序列
 local function isValidSequence(a)
    if type(a) ~= "table" then
       return false
@@ -63,8 +84,9 @@ print(isValidSequence({nil,2, a = "b",nil}))    --false
 print(isValidSequence("str"))                   --false
 print(isValidSequence(nil))                     --false
 
---练习5.7
-local function copyAllToEnd(source,des,pos)
+
+---练习5.7 请编写一个函数，该函数将指定列表的所有元素插入到另一个列表的指定位置
+local function InsertAllToPos(source,des,pos)
     for i = 1,#source do
 	   table.insert(des,pos,source[i])
 	   pos = pos + 1
@@ -75,7 +97,8 @@ local function test5_7()
     local source = {4,5,6}
     local des = {1,2,3,7,8,9}
     local result = ""
-    copyAllToEnd( source,des,4)
+    InsertAllToPos(source,des,4)
+	
     for i = 1,#des do 
        result = result .. des[i] .." "
     end
@@ -83,7 +106,8 @@ local function test5_7()
 end
 test5_7()
 
---练习5.8
+---练习5.8 表标准库中提供了函数table.concact，该函数将制定表的字符串元素连接在一起。
+---请实现该函数，并比较在大数据量情况下与标准库的性能差异
 function table.my_slowConcat(t)
    local result = ""
    for i = 1,#t do
