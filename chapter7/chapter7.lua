@@ -112,7 +112,7 @@ local function getfileSize(file)
 end
 
 local buffSize = 1024
-local function printLast_N_Line(n,fileName)
+local function print_nLastLine(n,fileName)
    local file = io.open(fileName,"r")
    if not file then
       print(tostring(fileName).." file does not exist")
@@ -143,17 +143,17 @@ local function printLast_N_Line(n,fileName)
    end
 end
 --print("======test1======")
---printLast_N_Line(1,"7_2_input.txt")
+--print_nLastLine(1,"7_2_input.txt")
 --print("======test2======")
---printLast_N_Line(20,"7_2_input.txt")
+--print_nLastLine(20,"7_2_input.txt")
 --print("======test3======")
---printLast_N_Line(1,"none-exist.txt")
+--print_nLastLine(1,"none-exist.txt")
 --print("======test4======")
---printLast_N_Line(3,"7_4_input.txt")
+--print_nLastLine(3,"7_4_input.txt")
 --print("======test5======")
---printLast_N_Line(100,"7_4_input.txt")
+--print_nLastLine(100,"7_4_input.txt")
 --print("======test6======")
---printLast_N_Line(-100,"7_4_input.txt")
+--print_nLastLine(-100,"7_4_input.txt")
 
 ---练习7.6
 --注: os.execute 执行后返回错误码，而os.popen执行后返回file对象
