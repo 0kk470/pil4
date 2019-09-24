@@ -158,11 +158,7 @@ end
 ---练习7.6
 --注: os.execute 执行后返回错误码，而os.popen执行后返回file对象
 local function isWindows()
-   local flag = package.config:sub(1,1)
-   if flag == "\\" then
-      return true
-   end
-   return false
+   return package.config:sub(1,1) == "\\"
 end
 
 local function createDir(dirname)
