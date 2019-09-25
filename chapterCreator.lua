@@ -24,13 +24,13 @@ local function createLua(filename)
 end
 
 for i = 1,iChapterNum do
-   createLua("chapter"..i)
+   createLua(string.format("chapter%02d",i))
 end
 
 
 local function updateReadMe()
    local f = io.open("README.md","w")
-   local fmtText = "[chapter%d](https://github.com/0kk470/Lua-4th/blob/master/chapter%d/chapter%d.lua)"
+   local fmtText = "[chapter%02d](https://github.com/0kk470/Lua-4th/blob/master/chapter%02d/chapter%02d.lua)"
    if f then
       f:write("# Lua-4th\n\nLua程序设计第四版习题答案","\n","\n")
       for i = 1,iChapterNum do

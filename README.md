@@ -2,23 +2,23 @@
 
 Lua程序设计第四版习题答案
 
-[chapter1](https://github.com/0kk470/Lua-4th/blob/master/chapter1/chapter1.lua)
+[chapter01](https://github.com/0kk470/Lua-4th/blob/master/chapter01/chapter01.lua)
 
-[chapter2](https://github.com/0kk470/Lua-4th/blob/master/chapter2/chapter2.lua)
+[chapter02](https://github.com/0kk470/Lua-4th/blob/master/chapter02/chapter02.lua)
 
-[chapter3](https://github.com/0kk470/Lua-4th/blob/master/chapter3/chapter3.lua)
+[chapter03](https://github.com/0kk470/Lua-4th/blob/master/chapter03/chapter03.lua)
 
-[chapter4](https://github.com/0kk470/Lua-4th/blob/master/chapter4/chapter4.lua)
+[chapter04](https://github.com/0kk470/Lua-4th/blob/master/chapter04/chapter04.lua)
 
-[chapter5](https://github.com/0kk470/Lua-4th/blob/master/chapter5/chapter5.lua)
+[chapter05](https://github.com/0kk470/Lua-4th/blob/master/chapter05/chapter05.lua)
 
-[chapter6](https://github.com/0kk470/Lua-4th/blob/master/chapter6/chapter6.lua)
+[chapter06](https://github.com/0kk470/Lua-4th/blob/master/chapter06/chapter06.lua)
 
-[chapter7](https://github.com/0kk470/Lua-4th/blob/master/chapter7/chapter7.lua)
+[chapter07](https://github.com/0kk470/Lua-4th/blob/master/chapter07/chapter07.lua)
 
-[chapter8](https://github.com/0kk470/Lua-4th/blob/master/chapter8/chapter8.lua)
+[chapter08](https://github.com/0kk470/Lua-4th/blob/master/chapter08/chapter08.lua)
 
-[chapter9](https://github.com/0kk470/Lua-4th/blob/master/chapter9/chapter9.lua)
+[chapter09](https://github.com/0kk470/Lua-4th/blob/master/chapter09/chapter09.lua)
 
 [chapter10](https://github.com/0kk470/Lua-4th/blob/master/chapter10/chapter10.lua)
 
