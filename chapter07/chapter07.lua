@@ -3,7 +3,7 @@
 ---如果调用时传入一个文件名作为参数，则从该文件中读取并向标准输出写入；
 ---如果调用时传入两个文件名作为参数，则从第一个文件读取并将结果写入第二个文件中
 
----练习7.2
+---练习7.2  改写7.1的程序，使得当指定的输出文件已经存在时，要求用户确认。
 local function file_exists(name)
    local f = io.open(name,"r")
    if f then
@@ -52,8 +52,12 @@ end
 --SortAndWrite("7_1_input.txt","7_1_output.txt")
 
 
----练习7.3
---取决于解释器能分配的最大内存，不过最好一次性不要操作几十mb以上的文件（参见 www.lua.org/pil/21.2.1.html）
+---练习7.3 
+---对比使用下列几种不同的方式把标准输入流复制到标准输出流中的Lua程序的性能表现
+---● 按字节  ● 按行  ● 按块（每块大小8KB） ● 一次性读取整个文件
+
+---对于最后一种情况，输入文件最大支持多大
+---答:取决于解释器能分配的最大内存，不过最好一次性不要操作几十mb以上的文件（参见 www.lua.org/pil/21.2.1.html）
 
 local function formatCost(copyType,costTime)
    return copyType.. " cost time : " .. costTime .. "s\n"
@@ -99,8 +103,9 @@ end
 --test7_3()
 
 
----练习7.4 
----练习7.5
+---练习7.4 请编写一个程序，该程序输出一个文本文件的最后一行。当文件较大时且可以使用seek时，尝试避免读取整个文件来完成。
+
+---练习7.5 请将7.4的程序修改得更加通用，使其可以输出一个文本文件得最后n行。当文件较大时且可以使用seek时，尝试避免读取整个文件来完成。
 local function getfileSize(file)
    if not file then
       return 0
@@ -155,8 +160,11 @@ end
 --print("======test6======")
 --print_nLastLine(-100,"7_4_input.txt")
 
----练习7.6
---注: os.execute 执行后返回错误码，而os.popen执行后返回file对象
+
+
+---练习7.6 使用函数os.execute和io.popen，分别编写用于创建目录、删除目录和输出目录内容的函数。
+--PS: os.execute 执行后返回错误码，而os.popen执行后返回file对象
+
 local function isWindows()
    return package.config:sub(1,1) == "\\"
 end
@@ -191,7 +199,9 @@ end
 --removeDir("test7_6",true)
 
 
----练习7.7
+
+
+---练习7.7 你能否使用函数os.execute来改变Lua脚本的当前目录？为什么？
 local function changeMyDir(tar)
    local path = arg[0]
    if isWindows() then
