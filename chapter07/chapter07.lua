@@ -24,8 +24,8 @@ local function SortAndWrite(inputFile,outputFile)
    local of = nil
    if outputFile then
       if file_exists(outputFile) then
-	     local signal = ""
-		 local fmt = string.format("File %s is already existed, do you still want to rewrite it?(yes/no)",outputFile)
+         local signal = ""
+         local fmt = string.format("File %s is already existed, do you still want to rewrite it?(yes/no)",outputFile)
          while(signal ~= "YES" and signal ~= "NO") do
             print(fmt)
             signal = string.upper(io.read())
@@ -33,7 +33,7 @@ local function SortAndWrite(inputFile,outputFile)
          if signal == "YES" then
             of = io.output(outputFile)
          end
-	  else
+      else
          of = io.output(outputFile)
 	  end
    end
@@ -140,7 +140,7 @@ local function print_nLastLine(n,fileName)
          print(text)
          break
       elseif iCurSize == iFileSize then
-	     print("N is larger than file's line, print all lines")
+         print("N is larger than file's line, print all lines")
          print(text)
          break
       end
