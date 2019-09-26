@@ -20,6 +20,7 @@ local function createLua(filename)
    if file then
       print("success")
       file:write("--TODO")
+	  file:close()
    end
 end
 
@@ -29,13 +30,23 @@ end
 
 
 local function updateReadMe()
-   local f = io.open("README.md","w")
-   local fmtText = "[chapter%02d](https://github.com/0kk470/Lua-4th/blob/master/chapter%02d/chapter%02d.lua)"
+   local f = io.open("README.md",'w')
+   local fmtText = "+ [chapter%02d](https://github.com/0kk470/Lua-4th/blob/master/chapter%02d/chapter%02d.lua)"
    if f then
-      f:write("# Lua-4th\n\nLua程序设计第四版习题答案","\n","\n")
+      print("update readme " .. tostring(f))
+      f:write("# Lua-4th\n\nLua程序设计第四版习题答案(Pil4 Exercise Solutions) ","\n","\n")
+      f:write("## Part I. Basics","\n")
       for i = 1,iChapterNum do
          f:write(string.format(fmtText,i,i,i),"\n","\n")
+         if i == 8 then
+            f:write("## Part II. Real Programming","\n")
+         elseif i == 17 then
+            f:write("## Part III. Lua-isms","\n")
+         elseif i == 26 then
+            f:write("## Part IV. C API","\n")
+         end
       end
+	  f:flush()
 	  return true
    end
    return false
