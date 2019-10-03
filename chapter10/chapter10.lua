@@ -59,7 +59,7 @@ local function test10_1()
         print(b[i])
     end
 end
--- test10_1()
+test10_1()
 
 
 
@@ -67,7 +67,8 @@ end
 -- 后者不等价
 local str = "A"
 print(string.match(str, "[^%d%u]")) --非数字并且非大写字母
-print(string.match(str, "[%D%U]"))  --非数字或者非大写字母 其实就是所有字符
+print(string.match(str, "[%D%U]"))  --非数字或者非大写字母 其实还是匹配所有字符
+
 
 
 ---  练习10.3 请编写一个函数transliterate，该函数接受两个参数，第1个参数是字符串，第二个参数是一个表。
@@ -77,28 +78,121 @@ local function transliterate(str, t)
     if not str or not t then
         error("Invalid argument")
     end
-    for k, v in pairs(t) do
-        str = string.gsub(str, k, function(key)
-            if v == false then
-                return ""
-            end
+    str = string.gsub(str,".", function(c)
+        local v = t[c]
+        if v then
             return v
-        end)
-    end
+        elseif v == false then
+            return ""
+        else
+            return c
+        end
+    end)
     return str
 end
 
-local t = { the = false,best = "good"}
-print(transliterate("Lua isthe a best language in thisthe world",t))
+local t = { ["-"] = " ",["?"] = false}
+print(transliterate("Lua-is-a-good-language-for-me?????????",t))
+
 
 
 ---  练习10.4 在10.3节的最后，我们定义了一个trim函数。由于该函数使用了回溯，所以对于某些字符串来说该函数的时间复杂度是O(n^2)。
 ---  ●构造一个可能会导致函数trim耗费O(n^2)时间复杂度的字符串。
 ---  ●重写这个函数使得其时间复杂度为O(n)。
 
-local function trim(s)
+local function trim(s) -- 每个字符间都有空格的情况下 复杂度为 O(n^2) 
     s = string.gsub(s,"^%s*(.-)%s*$","%1")
     return s
 end
 
-print(trim(" ss sb bb "))
+local function trim2(s) --O(n)
+    local n = string.find(s,"%S")
+    if n then
+        return string.match(s,".*%S", n)
+    end
+    return ""
+end
+-- 更多方式可参考 lua-users.org/wiki/StringTrim
+
+local function test10_4()
+    local a = {}
+    for i = 1,500000 do   --O(n^2) string
+        a[i] = " a b c d e f g h i j k l m n o p q r s t u v w x y z "
+    end
+    local test = table.concat(a)
+	
+    local startTime = os.time()
+    for i = 1,10 do
+        trim(test)
+    end
+    local time1 = os.time() - startTime
+	
+    startTime = os.time()
+    for i = 1,10 do
+        trim2(test)
+    end
+    local time2 = os.time() - startTime
+	
+    print("trim cost Time : " .. time1 .. "s")
+    print("trim2 cost Time : " .. time2 .. "s")
+    print(trim(test) == trim2(test))
+end
+test10_4()
+
+--- 练习10.5 请使用转义序列\x编写一个函数，将一个二进制字符串格式转化为Lua语言中的字符串常量
+--- 作为优化，请同时使用转义序列\z打破较长的行
+local function escape(str)
+    str = string.gsub(str,'.',function (c)
+        return string.format("\\x%02x", string.byte(c))
+    end)
+    return str
+end
+
+print(escape("\0\1hello\200"))
+print(escape(" I am a long string, \z
+                   a very long string, \z
+                   a very very very long string, \z
+                   but I am still a single string only!"))
+
+--- 练习10.6 请为UTF-8字符重写函数transliterate。
+--注: 可以复习下章节4.5的知识
+local function transliterate_utf8(str,t)
+    if not str or not t then
+        error("Invalid argument")
+    end
+    str = string.gsub(str,".[\128-\191]*", function(c)
+        local v = t[c]
+        if v then
+            return v
+        elseif v == false then
+            return ""
+        else
+            return c
+        end
+    end)
+
+    return str
+end
+
+local t2 = { ["三"] = "四",["书"] = false}
+print(transliterate_utf8("Lua程序设计第三版书书书书书书书书书书书书书",t2))
+
+
+
+--- 练习10.7 请编写一个函数，该函数用于逆转一个UTF-8字符串
+--参见练习4.9
+function string.utf8reverse(str)
+    if not str then
+        error("the argument#1 is nil!")
+    end
+    if str == "" then
+        return str
+    end
+    local array = { utf8.codepoint(str, utf8.offset(str, 1), utf8.offset(str, -1)) }
+    local rArray = {}
+    local len = #array
+    for i = len, 1, -1 do
+        rArray[len - i + 1] = array[i]
+    end
+    return utf8.char(table.unpack(rArray))
+end
