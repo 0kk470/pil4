@@ -121,17 +121,17 @@ local function test10_4()
     end
     local test = table.concat(a)
 	
-    local startTime = os.time()
+    local startTime = os.clock()
     for i = 1,10 do
         trim(test)
     end
-    local time1 = os.time() - startTime
+    local time1 = os.clock() - startTime
 	
-    startTime = os.time()
+    startTime = os.clock()
     for i = 1,10 do
         trim2(test)
     end
-    local time2 = os.time() - startTime
+    local time2 = os.clock() - startTime
 	
     print("trim cost Time : " .. time1 .. "s")
     print("trim2 cost Time : " .. time2 .. "s")
