@@ -3,6 +3,29 @@ local function isinteger(n)
 end
 --- 练习13.1 请编写一个函数，实现无符号整型数的取模运算
 
+local function umod(a, b)
+   if a < 0 then
+      if b > 0 then
+	     return ((a>>1)%b*2+(a&1)-b)%b
+	  else
+	     if math.ult(a,b) then 
+		   return a 
+		 else 
+		   return b - a 
+		 end
+	  end
+   else
+	  if b > 0 then return a % b 
+	  else return a end
+   end
+end
+
+print(umod(3 << 62,10))
+print(umod(3 << 62,100))
+print(umod(3 << 62,1000))
+print(umod(3 << 62,3 << 62))
+print(umod(12345,3 << 62))
+
 --- 练习13.2 请用不同的方式实现对Lua整形数值的二进制的位数计算
 
 --- 练习13.3 如何判断一个给定的整数是2的幂次方?
@@ -30,6 +53,7 @@ print(hammingweight(4))
 print(hammingweight(math.tointeger(2^32)))
 
 --- 练习13.5 编写一个函数来测试一个给定整数的二进制表示是否是一个回文数
+
 --local function ispali(n)
 --    assert(isinteger(n))
 --    local o = n
@@ -44,4 +68,17 @@ print(hammingweight(math.tointeger(2^32)))
 --- 练习13.6 用lua实现一个bit数组。它应该支持下列操作
 --- ● newBitArray(n) (创建一个有n个bit的数组)
 --- ● setBit(a ,n ,v) (将boolean值 v 赋值给数组a的n位bit)
---- ● testBit(a ,n ,v) (返回一个n位bit的boolean值v)
+--- ● testBit(a ,n) (返回一个n位bit的boolean值v)
+local function newBitArray(n)
+   local array = {}
+   for i = 1,n do array[i] = false end
+   return array
+end
+
+local function setBit(a,n,v) 
+   if a and a[n] then a[n] = v end
+end
+
+local function testBit(a,n) 
+  return a and a[n]
+end
