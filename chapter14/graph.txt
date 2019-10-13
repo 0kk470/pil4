@@ -1,0 +1,7 @@
+a b 1
+a c 2
+a d 11
+a e 20
+b e 6
+d e 1
+c d 3
