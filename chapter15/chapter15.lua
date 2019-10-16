@@ -53,11 +53,12 @@ local testTable = {
     {7,8,9},
     ["#"] = "identifier",
 }
---io.input("data.txt","w")
---io.output("data.txt")
---serialize(testTable)
+io.input("data.txt","w")
+io.output("data.txt")
+serialize(testTable)
 
 
+--TODO  incorrect code
 local function basicSerialize(o)
     -- number or string
     return string.format("%q",o)
@@ -113,9 +114,9 @@ local function save(name,value,saved,indentation,isArray)
     end
 end
 
-local a = { 1,2,3, {"one","Two"} ,5, {4,b = 4,5,6} ,a = "ddd"}
-local b = { k = a[4]}
-local t = {}
-save("a",a,t)
-save("b",b,t)
-print()
+--local a = { 1,2,3, {"one","Two"} ,5, {4,b = 4,5,6} ,a = "ddd"}
+--local b = { k = a[4]}
+--local t = {}
+--save("a",a,t)
+--save("b",b,t)
+--print()
