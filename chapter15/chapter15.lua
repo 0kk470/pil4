@@ -53,9 +53,9 @@ local testTable = {
     {7,8,9},
     ["#"] = "identifier",
 }
-io.input("data.txt","w")
-io.output("data.txt")
-serialize(testTable)
+--io.input("data.txt","w")
+--io.output("data.txt")
+--serialize(testTable)
 
 
 local function basicSerialize(o)
@@ -63,34 +63,37 @@ local function basicSerialize(o)
     return string.format("%q",o)
 end
 
-local function save(name,value,saved,indentation)
+local function save(name,value,saved,indentation,isArray)
     indentation = indentation or 0
     saved = saved or {}
     local t = type(value)
-    --local space = string.rep(" ",indentation + 2)
-    --local space2 = string.rep(" ",indentation + 4)
-    --if indentation > 0 then io.write(space) end
-    io.write(name," = ")
+    local space = string.rep(" ",indentation + 2)
+    local space2 = string.rep(" ",indentation + 4)
+    if not isArray then io.write(name," = ") end
     if t == "number" or t == "string"  or t == "boolean" or t == "nil" then
         io.write(basicSerialize(value),"\n")
     elseif t == "table" then
         if saved[value] then
             io.write(saved[value],"\n")
         else
-            local indexes = {}
-            if #value > 0 then io.write("{\n") end
+            if #value > 0 then
+                if indentation > 0 then io.write(space) end
+                io.write("{\n")
+            end
+			local indexes = {}
             for i = 1,#value do
-                local fname = string.format("%s[%s]",name,i)
                 if type(value[i]) ~= "table" then
+                    io.write(space2)
                     io.write(basicSerialize(value[i]))
                 else
-                    save(fname,value[i],saved,indentation + 2)
+                    local fname = string.format("%s[%s]",name,i)
+                    save(fname,value[i],saved,indentation + 2,true)
                 end
-                saved[value[i]] = fname
                 io.write(",\n")
                 indexes[i] = true
             end
             if #value > 0 then
+                if indentation > 0 then io.write(space) end
                 io.write("}\n")
             else
                 io.write("{}\n")
@@ -110,9 +113,9 @@ local function save(name,value,saved,indentation)
     end
 end
 
----TODO
---local a = {"one","Two",3,{4,5,6,7}}
---local b = { k = a[1]}
---local t = {}
---save("a",a,t)
---save("b",b,t)
+local a = { 1,2,3, {"one","Two"} ,5, {4,b = 4,5,6} ,a = "ddd"}
+local b = { k = a[4]}
+local t = {}
+save("a",a,t)
+save("b",b,t)
+print()
