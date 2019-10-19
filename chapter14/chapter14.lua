@@ -7,7 +7,7 @@ end
 
 local function addition(a,b)
     assert(type(a) == "table")
-    assert(type(a) == "table")
+    assert(type(b) == "table")
     assert(#a == #b,"a and b are not the same dimension!")
     local c = {}
     for i = 1,#a do
