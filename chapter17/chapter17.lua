@@ -32,10 +32,10 @@ local function searcher(name,path)
     local err = ""
     if filename then
         print("loadfile")
-        local f = assert(loadfile(filename),filename .. " loadfile failed")
+        local f = loadfile(filename)
         if not f then
             print("loadlib")
-            f = assert(package.loadlib(filename),filename .. " loadlib failed")
+            f = assert(package.loadlib(filename),filename .. " load failed")
         end
         return f
     else
