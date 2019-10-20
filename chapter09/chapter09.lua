@@ -11,6 +11,12 @@ local function rect(left,right,bottom,up)
    end
 end
 
+local function complement(r)
+   return function(x,y)
+      return not r(x,y)
+   end
+end
+
 local function union(r1,r2)
    return function(x , y)
        return r1(x,y) or r2(x,y)
