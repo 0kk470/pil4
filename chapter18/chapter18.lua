@@ -87,8 +87,31 @@ local function substrings(str)
     end
 end
 
-for str in substrings("abcd") do
-    print(str)
+--for str in substrings("abcd") do
+--    print(str)
+--end
+
+---练习18.5 请编写一个真正的迭代器，该迭代器遍历指定集合的所有子集
+---(该迭代器可以使用同一个表来保存所有的结果。只需要在每次迭代时改变表的内容即可，不需要为每个子集创建一个新表)
+
+local function allPowerSet(f,set)
+    local t = {{}}
+    for i = 1, #set do
+        for j = 1, #t do
+            local tmp = {table.unpack(t[j])}
+            tmp[#tmp + 1] = set[i]
+            t[#t+1] = tmp
+            f(tmp)
+        end
+    end
 end
 
----练习18.5
+local function printSubSet(subset)
+    io.write("{")
+    for i = 1,#subset do
+        io.write(i == 1 and "" or ",",subset[i])
+    end
+    io.write("}\n")
+end
+
+allPowerSet(printSubSet,{1,2,3,4})
