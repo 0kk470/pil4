@@ -116,5 +116,3 @@ local function printSubSet(subset)
 end
 
 allPowerSet(printSubSet,{1,2,3,4})
-
-print(count)
