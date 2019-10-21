@@ -96,6 +96,7 @@ end
 
 local function allPowerSet(f,set)
     local t = {{}}
+    f(t[1])
     for i = 1, #set do
         for j = 1, #t do
             local tmp = {table.unpack(t[j])}
@@ -115,3 +116,5 @@ local function printSubSet(subset)
 end
 
 allPowerSet(printSubSet,{1,2,3,4})
+
+print(count)
