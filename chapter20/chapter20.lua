@@ -75,7 +75,8 @@ end
 
 
 
----练习20.3 另一种实现只读表的方法是用一个函数作为__index元方法。
+---练习20.3 另一种实现只读表的方法是用一个函数作为__index元方法。这种方式使得访问的开销更大，但是创建只读表的开销更小。
+---(因为所有的只读表能够共享一个元表)请使用这种方式重写函数readOnly
 local key = {}
 local mt = { -- create metatable
     __index = function (t,k) return t[key][k] end,
@@ -97,8 +98,70 @@ end
 
 
 
----练习20.4
+---练习20.4 代理表可以表示除表以外的其他类型的对象。请编写一个函数fileAsArray,该函数以一个文件名为参数，返回值会对应文件的代理。
+---当执行 t = fileAsArray("myfile")后,返回t[i]返回指定文件的第i个字节，而对t[i]的赋值更新第i个字节。
+
+---练习20.5 扩展之前的例子，使得我们能够使用pairs(t)遍历文件中的所有字节,并使用#t来获得文件的大小。
+
+local function getfileSize(proxy)
+    local filebytes = rawget(proxy,"filebytes")
+    return filebytes and #filebytes or 0
+end
+
+local function getfileByte(proxy,i)
+    assert(math.type(i) == "integer","i is not an integer")
+    local filebytes = rawget(proxy,"filebytes")
+    return filebytes and filebytes[i]
+end
+
+local function setfileByte(proxy,i,v)
+    assert(math.type(i) == "integer","i is not an integer")
+    local filebytes = assert(rawget(proxy,"filebytes"),"file bytes is nil")
+    assert(i <= #filebytes and i > 0,"i is too large or too small for file size,value:" .. i)
+    if  filebytes[i] == v then return end
+    filebytes[i] = v
+    local str = string.char(table.unpack(filebytes))
+    local filename = assert(rawget(proxy,"filename"),"file name is nil")
+    local f = assert(io.open(filename,"w"),"file does not exists")
+    f:write(str)
+end
+
+local function filepairs(proxy)
+    local i = 0
+    local filebytes = assert(rawget(proxy,"filebytes"),"file bytes is nil")
+    return function ()
+        i = i + 1
+        if i <= #filebytes then
+           return i,filebytes[i]
+        end
+    end
+end
 
 local function fileAsArray(filename)
-    assert(filename == "string","filename is not a 'string' ")
+    assert(type(filename) == "string","filename is not a 'string' ")
+    local f = assert(io.open(filename,"r"),"file does not exists")
+    local proxy = { filename = filename,filebytes = {string.byte(f:read("a"),1,-1)}}
+    local mt = {
+        __len = getfileSize,
+        __index = getfileByte,
+        __newindex = setfileByte,
+        __pairs = filepairs
+    }
+    setmetatable(proxy,mt)
+    return proxy
 end
+
+--local t = fileAsArray("data.txt")
+--print("__index")
+--print(string.char(t[1]))
+--print(string.char(t[2]))
+--print(string.char(t[3]))
+--print("__len")
+--print(#t)
+--print("__newindex")
+--t[1] = string.byte("a")
+--t[26] = string.byte("Z")
+--print("__pairs")
+--for i,v in pairs(t) do
+--    print(i,string.char(v))
+--end
