@@ -1,88 +1,59 @@
---TODO
-local Account = { balance = 12}
+---练习21.1 实现一个类Stack，该类具有push、pop、top、isempty
 
-function Account:new(o)
+local stack = {}
+stack.__index = stack
+
+function stack:new(o)
     o = o or {}
-    self.__index = self
     setmetatable(o,self)
+    o.list = {}
     return o
 end
 
-function Account:deposit(v)
-    self.balance = self.balance + v
+function stack:isempty()
+    return #self.list == 0
 end
 
-function Account:withdraw(v)
-    if v - self.balance >= self:getLimit() then
-        error"insufficient funds"
-    end
-    self.balance = self.balance - v
-    print("balance: " .. self.balance)
+function stack:push(v)
+    assert(v,"push data is nil")
+    self.list[#self.list + 1] = v
 end
 
-local SpecialAccount = Account:new()
-local s = SpecialAccount:new{limit = 1000}
-function SpecialAccount:getLimit()
-    return self.limit or 0
+function stack:top()
+    if self:isempty() then error("cannot get top,stack is empty") end
+    return self.list[#self.list]
 end
 
-print(s:getLimit())
-s:withdraw(2)
-
-local function createclass(...)
-    local c = {}
-    local parents = {...}
-    setmetatable(c,{__index = function (t,k)
-        for i = 1,#parents do
-            if parents[i][k] then t[k] = parents[i][k] return parents[i][k] end
-        end
-    end} )
-    c.__index = c
-    c.new = function(o)
-        o = o or {}
-        setmetatable(o,c)
-        return o
-    end
-    return c
+function stack:pop()
+    if self:isempty() then error("pop error,stack is empty") end
+    local v =  self.list[#self.list]
+    table.remove(self.list)
+    return v
 end
 
-local function newAccount(initialBalance)
-    local self = {balance = initialBalance}
-    local withdraw = function(v) self.balance = self.balance - v end
-    local deposit = function(v) self.balance = self.balance + v end
-    local getBalance = function() return self.balance end
-    return {
-        withdraw = withdraw,
-        deposit = deposit,
-        getBalance = getBalance,
-    }
+--local stk = stack:new()
+--local stk2 = stack.new()
+--stk:push(1)
+--stk:push(2)
+--stk:push(3)
+--print(stk:top())
+--print(stk:pop())
+--print(stk:top())
+--print(stk:isempty())
+--print(stk2:isempty())
+
+---练习21.2 实现类Stack的子类StackQueue。除了继承的方法外，还给这个子类增加一个方法insertbottom。
+---该方法在栈的底部插入一个元素（这个方法使得我们可以把这个类的实例当作队列）
+local StackQueue = stack:new()
+StackQueue.__index = StackQueue
+function StackQueue:insertbottom(v)
+    assert(v,"insert value is nil")
+    table.insert(self.list,1,v)
 end
-
-function newObject(value)
-    return function(action,v)
-        if action == "get" then return value
-        elseif action == "set" then value = v
-        else error("invalid action")
-        end
-    end
-end
-
-local d = newObject(0)
-print(d("get")) --0
-d("set",10)
-print(d("get")) --10
-
-local balance = {}
-
-function Account:withdraw(v)
-    balance[self] = balance[self] - v
-end
-
-
-function Account:new(o)
-    o = o or {}
-    self.__index = self
-    setmetatable(o,self)
-    balance[o] = 0
-    return o
-end
+--local stkqueue = StackQueue:new()
+--stkqueue:push(1)
+--stkqueue:insertbottom(2)
+--stkqueue:insertbottom(3)
+--print(stkqueue:pop())
+--print(stkqueue:pop())
+--print(stkqueue:pop())
