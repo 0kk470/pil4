@@ -117,6 +117,7 @@ do
         __index = function(t,k)
             local objstate = proxies[t]
             if objstate then
+                if type(objstate[k]) ~= "function"then error("try to access object's private data,key:" .. tostring(k)) end
                 return objstate[k]
             end
         end
