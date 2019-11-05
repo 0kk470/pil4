@@ -1,6 +1,21 @@
---TODO
 ---练习24.1 使用生产者驱动式设计重写24.2节中生产者-消费者的示例，其中消费者是协程，而生产者是主线程。
 
+local function producer(consumer)
+    while true do
+        local x = io.read()
+        coroutine.resume(consumer,x)
+    end
+end
+
+local consumer = coroutine.create(function (x)
+    print(x) --the first time into this func
+    while true do
+        local val = coroutine.yield()
+        print(val)
+    end
+end)
+
+producer(consumer)
 
 ---练习24.2 练习6.5要求编写一个函数来输出指定数组元素的所有组合。请使用协程把该函数修改为组合的生成器。
 ---该生成器的用法如下
