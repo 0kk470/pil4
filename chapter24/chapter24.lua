@@ -1,3 +1,31 @@
+local lib = require "async-lib"
+
+function run (code)
+    local co = coroutine.wrap(function ()
+        code()
+        lib.stop() -- finish event loop when done
+    end)
+    co() -- start coroutine
+    lib.runloop() -- start event loop
+end
+
+function putline (stream, line)
+    local co = coroutine.running() -- calling coroutine
+    local callback = (function () coroutine.resume(co) end)
+    lib.writeline(stream, line, callback)
+    coroutine.yield()
+end
+
+function getline (stream, line)
+    local co = coroutine.running() -- calling coroutine
+    local callback = (function (l) coroutine.resume(co, l) end)
+    lib.readline(stream, callback)
+    local line = coroutine.yield()
+    return line
+end
+
+
+
 ---练习24.1 使用生产者驱动式设计重写24.2节中生产者-消费者的示例，其中消费者是协程，而生产者是主线程。
 
 local function producer(consumer)
