@@ -1,5 +1,5 @@
 ---Exercise 25.1: Adapt getvarvalue (Figure 25.1, “Getting the value of a variable”) to work with different coroutines (like the functions from the debug library).
-function getvarvalue (co,name, level, isenv)
+function co_getvarvalue (co,name, level, isenv)
     if type(co) ~= "thread" then
         co = coroutine.running()
     end
@@ -30,7 +30,7 @@ function getvarvalue (co,name, level, isenv)
     if isenv then return "noenv" end -- avoid loop
 
     -- not found; get value from the environment
-    local _, env = getvarvalue(co,"_ENV", level, true)
+    local _, env = co_getvarvalue(co,"_ENV", level, true)
     if env then
         return "global", env[name]
     else -- no _ENV available
@@ -42,17 +42,64 @@ function test25_1()
     local val1 = 1
     local co = coroutine.wrap(function ()
         local val2 = val1
-        print(getvarvalue(nil,"val1",1))
-        print(getvarvalue(nil,"val2",1))
+        print(co_getvarvalue(nil,"val1",1))
+        print(co_getvarvalue(nil,"val2",1))
     end)
     co()
-    print(getvarvalue(nil,"val1",1))
-    print(getvarvalue(nil,"val2",1))
+    print(co_getvarvalue(nil,"val1",1))
+    print(co_getvarvalue(nil,"val2",1))
 end
 --test25_1()
 
 ---Exercise 25.2: Write a function setvarvalue similar to getvarvalue (Figure 25.1, “Getting the value of a variable”).
+function setvarvalue (name, level, value)
 
+    level = (level or 1) + 1
+
+    -- try local variables
+    for i = 1, math.huge do
+        local n, v = debug.getlocal(level, i)
+        if not n then break end
+        if n == name then
+            debug.setlocal(level, i,value)
+            break
+        end
+    end
+
+    -- try non-local variables
+    local func = debug.getinfo(level, "f").func
+    local _env = nil
+    local isFound = false
+    for i = 1, math.huge do
+        local n, v = debug.getupvalue(func, i)
+        if not n then break end
+        if n == name then
+            debug.setupvalue(func,i,value)
+            isFound = true
+            break
+        elseif n == "_ENV" then
+            _env = v
+        end
+    end
+    if not isFound and _env then
+        _env[name] = value
+    end
+end
+
+local val2 = 100
+function test25_2()
+    local val = 1
+    print("val = " .. val)
+    setvarvalue("val",1,100)
+    print("val setvalue  " .. val)
+    print("val2 = " .. val2)
+    setvarvalue("val2",1,99)
+    print("val2 setvalue " .. val2)
+    print("val3 = " .. tostring(val3))
+    setvarvalue("val3",1,"val3")
+    print("val3 setvalue " .. tostring(val3))
+end
+--test25_2()
 
 
 ---Exercise 25.3: Write a version of getvarvalue (Figure 25.1, “Getting the value of a variable”) that
