@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "*.txt": "lua",
+        "lauxlib.h": "c"
+    }
+}
