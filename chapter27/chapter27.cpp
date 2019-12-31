@@ -2,6 +2,7 @@
 //put 'liblua.a' in the mingw's library path.  (e.g. C:\TDM-GCC-64\x86_64-w64-mingw32\lib)
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 extern "C"
 {
 #include "../lua_src/lua.h"
@@ -103,10 +104,47 @@ void Exercise27_2()
     stackDump(L);
 }
 
+void *allocator(void *ud,void *ptr,size_t osize,size_t nsize)
+{
+    if (nsize == 0)
+    {
+        free(ptr);
+        return NULL;
+    }
+    else
+    {
+        int* limit = (int*)ud;
+        if(limit != NULL && *limit < nsize)
+        {
+            printf("fail, out of memory!\n");
+            return NULL;
+        }
+        return realloc(ptr , nsize);
+    }
+    
+}
+
+void setlimit(lua_State* L,int* memsize)
+{   
+    lua_setallocf(L , allocator, memsize);
+}
+
+void Exercise27_4()
+{
+    lua_State *L = luaL_newstate();
+    int limit = 8;
+    setlimit(L, &limit);
+     printf("Push 1234567\n");
+    lua_pushstring(L,"1234567"); //need 7
+    printf("Push 89\n");
+    lua_pushstring(L, "89");    // need 9
+}
+
 int main(void)
 {
     //Example27_2();
     //Exercise27_1();
-    Exercise27_2();
+    //Exercise27_2();
+    Exercise27_4();
     getchar();
 }
