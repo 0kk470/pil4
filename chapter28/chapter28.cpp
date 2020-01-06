@@ -48,13 +48,14 @@ void call_va(lua_State *L,const char *func,const char *sig,...)
             goto endargs;
         case 'b':
             lua_pushboolean(L, va_arg(vl, int));
+            break;
         default:
-            error(L, "invalid option (%c)", *(sig - 1));
+            error(L, "push value error, invalid option (%c)", *(sig - 1));
         }
     }
     endargs:
     nres = strlen(sig);
-    if(lua_pcall(L, narg, nres, 0) != 0)
+    if(lua_pcall(L, narg, nres, 0) != LUA_OK )
     {
         error(L, "error calling '%s': %s", func, lua_tostring(L, -1));
     }
@@ -95,8 +96,8 @@ void call_va(lua_State *L,const char *func,const char *sig,...)
                 if(lua_isboolean(L, nres))
                   error(L, "wrong result type");
                 bool b = lua_toboolean(L,nres);
-                 *va_arg(vl, bool*) = b;
-                 break;
+                *va_arg(vl, bool*) = b;
+                break;
             }
         default:
             error(L, "invalid option (%c)", *(sig - 1));
@@ -106,31 +107,54 @@ void call_va(lua_State *L,const char *func,const char *sig,...)
     va_end(vl);
 }
 
+void printchar(char c,int num)
+{
+    for(int i = 0; i < num; i++)
+    {
+        putchar(c);
+    }
+    printf("\n");
+}
+
 void Exercise28_1()
 {
     lua_State *L = luaL_newstate();
-    luaopen_base(L);
-    luaL_requiref(L, "io", luaopen_io, 1);
-    int ret = luaL_loadfile(L, "chapter28.lua");
-    if(ret == LUA_OK)
+    luaL_openlibs(L);
+    if(luaL_dofile(L, "chapter28.lua") == 0)
     {
-        lua_pcall(L, 0, LUA_MULTRET, 0); 
         for(int i = 1; i <= 20; i++)
         {
-            call_va(L, "f", "i", i);
-            int result = lua_tonumber(L,-1);
-            lua_pop(L,1);
-            printf("%*s\n", result, "*");
+            int result = 0;
+            call_va(L, "f", "i>i", i, &result);
+            lua_pop(L, 1);
+            printchar('*', result);
         }
     }
     else
     {
-        error(L,"Failed to load chapter28.lua,Error Code:%d",ret);
+        error(L,"Failed to load chapter28.lua,Error:%s",lua_tostring(L,-1));
     }
+    lua_close(L);
+}
+
+void Exercise28_2()
+{
+    lua_State *L = luaL_newstate();
+    luaL_openlibs(L);
+    if(luaL_dofile(L, "chapter28.lua") == 0)
+    {
+        call_va(L, "checkboolean", "b", true);
+    }
+    else
+    {
+        error(L,"Failed to load chapter28.lua,Error:%s",lua_tostring(L,-1));
+    }
+    lua_close(L);
 }
 
 int main()
 {
-    Exercise28_1();
+    //Exercise28_1();
+    //Exercise28_2();
     system("pause");
 }
