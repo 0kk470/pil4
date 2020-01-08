@@ -22,8 +22,8 @@ end
 
 ---Exercise 29.3: Write a function that takes any number of parameters and returns them in reverse order.
 --- print(reverse(1, "hello", 20)) --> 20 hello 1
-
-
+print(mylib.reverse(1, "hello", 20))
+print(mylib.reverse(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15))
 
 ---Exercise 29.4: Write a function foreach that takes a table and a function and calls that function for each
 ---key–value pair in the table.

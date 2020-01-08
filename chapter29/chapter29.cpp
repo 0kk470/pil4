@@ -9,7 +9,7 @@ extern "C"
 #include "../lua_src/lualib.h"
 }
 
-static int summation(lua_State* L)
+static int summation(lua_State* L) //Exercise 29.1
 {
     lua_Number sum = 0;
     int n = lua_gettop(L);
@@ -19,24 +19,37 @@ static int summation(lua_State* L)
     return 1;
 }
 
-static int pack(lua_State* L)
+static int pack(lua_State* L) //Exercise 29.2
 {
     int n = lua_gettop(L);
     lua_newtable(L);
     lua_insert(L,1);
-    for(int i = 1; i <= n; i++)
+    for(int i = n; i >= 1; i--)
     {
-        lua_pushinteger(L,n - i + 1);
-        lua_insert(L,-2);
-        lua_settable(L,1);
+        lua_pushinteger(L,i);
+        lua_insert(L, -2);
+        lua_settable(L, 1);
     }
     return 1;
+}
+
+static int reverse(lua_State* L) //Exercise 29.3
+{
+    int n = lua_gettop(L);
+    for(int i = 1; i < n; i++) lua_insert(L, i);
+    return n;
+}
+
+static int foreach(lua_State* L) //Exercise 29.4
+{
+
 }
 
 static const struct luaL_Reg mylib [] =
 {
     {"summation",summation},
     {"pack",pack},
+    {"reverse",reverse},
     {NULL,NULL},
 };
 
