@@ -72,3 +72,5 @@ Lua程序设计第四版习题答案(Pil4 Exercise Solutions)
 
 + [chapter33](https://github.com/0kk470/Lua-4th/blob/master/chapter33/chapter33.lua)
 
+### Others
++ [compile lua via visual studio](https://github.com/0kk470/lua-on-visual-studio)
