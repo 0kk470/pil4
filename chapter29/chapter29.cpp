@@ -42,7 +42,22 @@ static int reverse(lua_State* L) //Exercise 29.3
 
 static int foreach(lua_State* L) //Exercise 29.4
 {
-
+     luaL_checktype(L, 1, LUA_TTABLE);
+     luaL_checktype(L, 2, LUA_TFUNCTION);
+     lua_pushnil(L);  /* 第一个键 */
+     while (lua_next(L, 1) != 0) 
+     {
+         //复制键做下一次迭代
+        lua_pushvalue(L, -2); 
+        lua_insert(L, -4);    
+         //复制函数
+        lua_pushvalue(L, 3); 
+        lua_insert(L, 2);
+        //调用     
+        lua_pcall(L, 2, LUA_MULTRET, 0);
+     }
+     lua_settop(L, 0);
+     return 1;
 }
 
 static const struct luaL_Reg mylib [] =
@@ -50,6 +65,7 @@ static const struct luaL_Reg mylib [] =
     {"summation",summation},
     {"pack",pack},
     {"reverse",reverse},
+    {"foreach",foreach},
     {NULL,NULL},
 };
 

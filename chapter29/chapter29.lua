@@ -31,7 +31,7 @@ print(mylib.reverse(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15))
 --- --> x 10
 --- --> y 20
 ---(Hint: check the function lua_next in the Lua manual.)
-
+mylib.foreach({x = 10, y = 20,1,2,3,"haha",[{}] = {} }, print)
 
 
 ---Exercise 29.5: Rewrite the function foreach, from the previous exercise, so that the function being
