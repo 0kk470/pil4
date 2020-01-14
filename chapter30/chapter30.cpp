@@ -181,14 +181,40 @@ int l_gettrans_upvalue(lua_State *L)
     return 1;
 }
 
-int trans_closure(lua_State *L)
-{
-    return 1;
-}
-
 int l_transliterate_upvalue(lua_State *L) 
 {
-    lua_pushcclosure(L, trans_closure, 1);
+    const char *s = luaL_checkstring(L, -1);
+    size_t l = luaL_len(L, -1);
+    const char *end = s + l;
+    luaL_Buffer b;
+    luaL_buffinitsize(L, &b, l);
+    char key[2] = {'\0','\0'};
+    l_gettrans_upvalue(L);
+    stackDump(L);
+    luaL_checktype(L, -1 , LUA_TTABLE);
+    int t  = LUA_TNIL;
+    while(s != end)
+    {
+        strncpy(key, s, 1);
+        t = lua_getfield(L, -1, key);
+        switch (t)
+        {
+            case LUA_TSTRING:
+                luaL_addstring(&b,lua_tostring(L, -1));
+                break;
+            case LUA_TBOOLEAN:
+                if(lua_toboolean(L, -1) != 0)
+                    luaL_addchar(&b, *s);
+                break;
+            default:
+                luaL_addchar(&b, *s);
+                break;
+        }
+        lua_pop(L, 1);
+        ++s;
+    }
+    lua_settop(L, 0);
+    luaL_pushresult(&b);
     return 1;
 }
 
@@ -201,15 +227,17 @@ static const struct luaL_Reg mylib [] =
     {"gettrans",l_gettrans_reg},
     {"transliterate",l_transliterate_reg},
     /* 使用上值 */
-    // {"settrans",l_settrans_upvalue},
-    // {"gettrans",l_gettrans_upvalue},
-    // {"transliterate",l_transliterate_upvalue},
+    {"settrans_up",l_settrans_upvalue},
+    {"gettrans_up",l_gettrans_upvalue},
+    {"transliterate_up",l_transliterate_upvalue},
     {NULL,NULL},
 };
 
 LUAMOD_API int luaopen_mylib(lua_State* L)
 {
     luaL_newlib(L,mylib);
+    lua_newtable(L);
+    luaL_setfuncs(L, mylib, 1);
     return 1;
 }
 

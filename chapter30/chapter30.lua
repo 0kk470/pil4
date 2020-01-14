@@ -21,11 +21,6 @@ for i,v in ipairs(t) do
 end
 
 ---Exercise 30.3: Reimplement the function transliterate (Exercise 10.3) in C.
-local char_tbl = { ["-"] = " ",["?"] = false}
-print(mylib.settrans(char_tbl))
-print(mylib.gettrans())
-print(char_tbl)
-print(#mylib.transliterate("Lua-is-a-good-language-for-me?????????"))
 
 
 ---Exercise 30.4: Implement a library with a modification of transliterate so that the transliteration
@@ -35,11 +30,18 @@ print(#mylib.transliterate("Lua-is-a-good-language-for-me?????????"))
 --- lib.gettrans () -- get the transliteration table
 --- lib.transliterate(s) -- transliterate 's' according to the current table
 ---Use the registry to keep the transliteration table.
-
+local char_tbl = { ["-"] = " ",["?"] = false}
+print(mylib.settrans(char_tbl))
+print(mylib.gettrans())
+print(char_tbl)
+print(mylib.transliterate("Lua-is-a-good-language-for-me?????????"))
 
 
 ---Exercise 30.5: Repeat the previous exercise using an upvalue to keep the transliteration table.
-
+print(mylib.settrans_up(char_tbl))
+print(mylib.gettrans_up())
+print(char_tbl)
+print(mylib.transliterate_up("Lua-is-a-good-language-for-me?????????"))
 
 
 ---Exercise 30.6: Do you think it is a good design to keep the transliteration table as part of the state of the
