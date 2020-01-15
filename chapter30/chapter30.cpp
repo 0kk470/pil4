@@ -20,41 +20,6 @@ void error(lua_State *L, const char *fmt,...)
     exit(EXIT_FAILURE);
 }
 
-static void stackDump(lua_State *L)
-{
-    int i;
-    int top = lua_gettop(L); // stack's depth
-    for (i = 1; i <= top; i++)
-    {
-        int t = lua_type(L, i);
-        switch (t)
-        {
-          case LUA_TSTRING:
-          {
-              printf("'%s'", lua_tostring(L, i));
-              break;
-          }
-          case LUA_TBOOLEAN:
-          {
-              printf(lua_toboolean(L, i) ? "true" : "false");
-              break;
-          }
-          case LUA_TNUMBER:
-          {
-              printf("%g", lua_tonumber(L, i));
-              break;
-          }
-          default:
-          {
-              printf("%s", lua_typename(L, t));
-              break;
-          }
-        }
-        printf(" ");
-    }
-    printf("\n");
-}
-
 static int l_filter(lua_State* L) //Exercise 30.1
 {
     luaL_checktype(L, 1, LUA_TTABLE);
@@ -169,13 +134,13 @@ int l_transliterate_reg(lua_State *L)
 int l_settrans_upvalue(lua_State *L)
 {
     luaL_checktype(L, 1, LUA_TTABLE);
-    lua_copy(L, -1, lua_upvalueindex(1) );
+    lua_setfield(L, lua_upvalueindex(1), "trans_table");
     return 0;
 }
 
 int l_gettrans_upvalue(lua_State *L)
 {
-    lua_pushvalue(L, lua_upvalueindex(1));
+    lua_getfield(L, lua_upvalueindex(1), "trans_table");
     if(!lua_istable(L, -1))
         error(L, "You have not set a table for function 'transliterate', gettrans failed!");
     return 1;
@@ -190,7 +155,6 @@ int l_transliterate_upvalue(lua_State *L)
     luaL_buffinitsize(L, &b, l);
     char key[2] = {'\0','\0'};
     l_gettrans_upvalue(L);
-    stackDump(L);
     luaL_checktype(L, -1 , LUA_TTABLE);
     int t  = LUA_TNIL;
     while(s != end)
@@ -235,7 +199,7 @@ static const struct luaL_Reg mylib [] =
 
 LUAMOD_API int luaopen_mylib(lua_State* L)
 {
-    luaL_newlib(L,mylib);
+    luaL_newlibtable(L, mylib);
     lua_newtable(L);
     luaL_setfuncs(L, mylib, 1);
     return 1;

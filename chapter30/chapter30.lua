@@ -13,9 +13,9 @@ print(t2[1], t2[2])
 
 ---Exercise 30.2: Modify the function l_split (from Figure 30.2, “Splitting a string”) so that it can work
 ---with strings containing zeros. (Among other changes, it should use memchr instead of strchr.)
-local t = mylib.split("a|b|cccc\0|d",'|')
 local str = "a|b|cccc\0|d"
 print(str)
+local t = mylib.split(str,'|')
 for i,v in ipairs(t) do
     print(v)
 end
@@ -31,16 +31,14 @@ end
 --- lib.transliterate(s) -- transliterate 's' according to the current table
 ---Use the registry to keep the transliteration table.
 local char_tbl = { ["-"] = " ",["?"] = false}
-print(mylib.settrans(char_tbl))
+mylib.settrans(char_tbl)
 print(mylib.gettrans())
-print(char_tbl)
 print(mylib.transliterate("Lua-is-a-good-language-for-me?????????"))
 
 
 ---Exercise 30.5: Repeat the previous exercise using an upvalue to keep the transliteration table.
-print(mylib.settrans_up(char_tbl))
+mylib.settrans_up(char_tbl)
 print(mylib.gettrans_up())
-print(char_tbl)
 print(mylib.transliterate_up("Lua-is-a-good-language-for-me?????????"))
 
 
