@@ -14,8 +14,10 @@ extern "C"
 
 #define I_BIT(i) (1 << ((unsigned int)(i) % BITS_PER_WORD))
 
-#define checkarray(L) \
-        (BitArray *)luaL_checkudata(L, 1, "LuaBook.array")
+#define checkarray(L, n) \
+        (BitArray *)luaL_checkudata(L, n, "LuaBook.array")
+
+#define checkarrayindex(bitarray,i) (bitarray->values[I_WORD(i)] & I_BIT(i)) 
 
 typedef struct BitArray
 {
@@ -58,9 +60,8 @@ static int newarray(lua_State *L)
 
 static unsigned int *getparams(lua_State *L, unsigned int *mask)
 {
-    BitArray *a = checkarray(L);
+    BitArray *a = checkarray(L, 1);
     int index = (int)luaL_checkinteger(L, 2) - 1;
-    luaL_argcheck(L, a != NULL, 1, "'array' expected");
     luaL_argcheck(L, 0 <= index && index < a->size, 2, "index out of range");
     *mask = I_BIT(index);
     return &a->values[I_WORD(index)];
@@ -86,18 +87,85 @@ static int getarray(lua_State* L)
     return 1;
 }
 
-static int getsize(lua_State* L)
+static int getsize(lua_State *L)
 {
-    BitArray *a = checkarray(L);
-    luaL_argcheck(L, a != NULL, 1, "'array' expected");
+    BitArray *a = checkarray(L, 1);
     lua_pushinteger(L, a->size);
     return 1;
 }
 
-static int array2string(lua_State* L)
+
+/* Exercise 31.2 ~ Exercise 31.4 */
+char buffer[25];
+static int array2string(lua_State *L)
 {
-    BitArray *a = checkarray(L);
-    lua_pushfstring(L, "array(%d)", a->size);
+    BitArray *a = checkarray(L, 1);
+    luaL_Buffer b;
+    luaL_buffinit(L, &b);
+    luaL_addstring(&b, "=== array start ===\n");
+    sprintf(buffer, "size : %d\n", a->size);
+    luaL_addstring(&b, buffer);
+    for(int i = 0; i < a->size; i++)
+    {
+        sprintf(buffer,"[%d]  =  %s\n\0", i + 1, checkarrayindex(a,i) ? "true" : "false");
+        luaL_addstring(&b, buffer);
+    }
+    luaL_addstring(&b, "=== array end ===\n");
+    luaL_pushresult(&b);
+    return 1;
+}
+
+static int getintersection(lua_State *L)
+{
+    BitArray *a = checkarray(L, 1);
+    BitArray *b = checkarray(L, 2);
+    int len = __min(a->size,b->size);
+    lua_pushcfunction(L, newarray);
+    lua_pushinteger(L, len);
+    if (lua_pcall(L, 1, 1, 0) == LUA_OK)
+    {
+        BitArray *c = (BitArray *)lua_touserdata(L, -1);
+        for (int i = 0; i < len; i++)
+        {
+            if (checkarrayindex(a, i) && checkarrayindex(b, i))
+                c->values[I_WORD(i)] |= I_BIT(i);
+            else
+                c->values[I_WORD(i)] &= ~I_BIT(i);
+        }
+    }
+    else
+    {
+        error(L,"create new array failed:",lua_tostring(L, -1));
+    }  
+    return 1;
+}
+
+static int getunion(lua_State *L)
+{
+    BitArray *a = checkarray(L, 1);
+    BitArray *b = checkarray(L, 2);
+    int len = __max(a->size,b->size);
+    lua_pushcfunction(L, newarray);
+    lua_pushinteger(L, len);
+    if (lua_pcall(L, 1, 1, 0) == LUA_OK)
+    {
+        BitArray *tmp = a->size < b->size ? a : b;
+        BitArray *c = (BitArray *)lua_touserdata(L, -1);
+        int i;
+        for (i = 0; i < tmp->size; i++)
+        {
+            if (checkarrayindex(a, i) || checkarrayindex(b, i))
+                c->values[I_WORD(i)] |= I_BIT(i);
+            else
+                c->values[I_WORD(i)] &= ~I_BIT(i);
+        }
+        for (; i < len; i++)
+            c->values[I_WORD(i)] = tmp->values[I_WORD(i)];
+    }
+    else
+    {
+        error(L, "create new array failed:", lua_tostring(L, -1));
+    }
     return 1;
 }
 
@@ -116,6 +184,8 @@ static const struct luaL_Reg arraylib_metamethods [] =
     {"__newindex", setarray},
     {"__len" , getsize},
     {"__tostring",array2string},
+    {"__add",getintersection},
+    {"__mul",getunion},
     {NULL,NULL},
 };
 
