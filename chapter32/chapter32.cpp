@@ -9,6 +9,17 @@ extern "C"
 #include "../lua_src/lualib.h"
 }
 
+void error(lua_State *L, const char *fmt,...)
+{
+    va_list argp;
+    va_start(argp, fmt);
+    vfprintf(stderr, fmt, argp);
+    va_end(argp);
+    lua_close(L);
+    printf("\nEnter any key to exit");
+    getchar();
+    exit(EXIT_FAILURE);
+}
 
 static int dir_iter(lua_State *L); /* 前向声明 */
 
@@ -25,9 +36,10 @@ static int l_dir(lua_State *L)
 
     *d = opendir(path);
     if(*d == NULL) /* Open fail*/
-        luaL_error(L,"cannot open %s: %s", path, strerror(errno));
+        error(L,"cannot open %s: %s", path, strerror(errno));
     
     lua_pushcclosure(L, dir_iter, 1);
+    return 1;
 }
 
 static int dir_iter(lua_State *L)
@@ -65,10 +77,17 @@ int luaopen_dir(lua_State *L)
     return 1;
 }
 
+void luaL_opendirlib(lua_State *L)
+{
+    luaL_requiref(L,"dir",luaopen_dir,1);
+    lua_pop(L, 1); 
+}
+
 int main()
 {
     lua_State *L = luaL_newstate();
     luaL_openlibs(L);
+    luaL_opendirlib(L);
     if(luaL_dofile(L, "chapter32.lua") != LUA_OK)
     {
         printf("lua error: %s",lua_tostring(L,-1));

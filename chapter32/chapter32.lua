@@ -4,7 +4,9 @@
 -- (When you close the directory, you should set the address stored in the userdata to NULL, to signal to the
 -- finalizer that the directory is already closed. Also, dir_iter will have to check whether the directory
 -- is closed before using it.)
-
+for fname in dir.open(".") do
+    print(fname)
+end
 
 
 -- Exercise 32.2: In the lxp example, we used user values to associate the callback table with the userdata
