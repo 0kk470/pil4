@@ -45,17 +45,27 @@ static int l_dir(lua_State *L)
 static int dir_iter(lua_State *L)
 {
     DIR *d = *(DIR **)lua_touserdata(L, lua_upvalueindex(1));
+    if(d == NULL)
+        return 0;
     dirent *entry = readdir(d);
     if(entry != NULL)
     {
         lua_pushstring(L, entry->d_name);
         return 1;
     }else
+    {
+        if(d) 
+        {
+            d = NULL;
+            lua_remove(L, lua_upvalueindex(1));
+        }
         return 0;
+    }
 }
 
 static int dir_gc(lua_State *L)
 {
+    printf("dir gc\n");
     DIR *d = *(DIR **)lua_touserdata(L, 1);
     if(d) closedir(d);
     return 0;
