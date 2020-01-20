@@ -10,7 +10,8 @@
                 "${file}",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe",
-                "-llua"
+                "-llua",
+                "-lexpat"
             ],
             "options": {
                 "cwd": "C:\\TDM-GCC-64\\bin"

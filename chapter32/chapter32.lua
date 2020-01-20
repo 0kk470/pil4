@@ -8,6 +8,15 @@ for fname in dir.open(".") do
     print(fname)
 end
 
+local parser = lxp.new()
+local t = parser:parse(
+[[
+    <Button name = "clickBtn"></Button>
+]]
+)
+for k,v in pairs(t) do
+    print(k,v)
+end
 
 -- Exercise 32.2: In the lxp example, we used user values to associate the callback table with the userdata
 -- that represents a parser. This choice created a small problem, because what the C callbacks receive is the
