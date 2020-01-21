@@ -265,6 +265,7 @@ static int lxp_close(lua_State *L)
     if (xpu->ref_cb != 0)
     {
         luaL_unref(L, LUA_REGISTRYINDEX, xpu->ref_cb);
+        xpu->ref_cb = 0;
     }
     return 0;
 }
@@ -304,7 +305,7 @@ int main()
 {
     lua_State *L = luaL_newstate();
     luaL_openlibs(L);
-    luaL_opendirlib(L);
+      (L);
     luaL_openlxplib(L);
     if(luaL_dofile(L, "chapter32.lua") != LUA_OK)
     {

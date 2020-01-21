@@ -8,6 +8,17 @@ for fname in dir.open(".") do
     print(fname)
 end
 
+
+
+-- Exercise 32.2: In the lxp example, we used user values to associate the callback table with the userdata
+-- that represents a parser. This choice created a small problem, because what the C callbacks receive is the
+-- lxp_userdata structure, and that structure does not offer direct access to the table. We solved this
+-- problem by storing the callback table at a fixed stack index during the parse of each fragment.
+-- An alternative design would be to associate the callback table with the userdata through references (the
+-- section called “The registry”): we create a reference to the callback table and store the reference (an integer)
+-- in the lxp_userdata structure. Implement this alternative. Do not forget to release the reference when
+-- closing the parser.
+
 local count = 0
 local callbacks = {
     StartElement = function(parser, tagname)
@@ -28,12 +39,3 @@ local ret = p:parse(
 )
 p:close()
 print(ret)
-
--- Exercise 32.2: In the lxp example, we used user values to associate the callback table with the userdata
--- that represents a parser. This choice created a small problem, because what the C callbacks receive is the
--- lxp_userdata structure, and that structure does not offer direct access to the table. We solved this
--- problem by storing the callback table at a fixed stack index during the parse of each fragment.
--- An alternative design would be to associate the callback table with the userdata through references (the
--- section called “The registry”): we create a reference to the callback table and store the reference (an integer)
--- in the lxp_userdata structure. Implement this alternative. Do not forget to release the reference when
--- closing the parser.
