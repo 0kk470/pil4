@@ -70,6 +70,27 @@ static Proc* searchmatch(const char *channel, Proc **list)
     return NULL;
 }
 
+static void waitonlist(lua_State *L, const char *channel, Proc **list)
+{
+    Proc *p = getself(L);
+    if(*list == NULL)
+    {
+        *list = p;
+        p->previous = p->next = p;
+    }
+    else
+    {
+        p->previous = (*list)->previous;
+        p->next = *list;
+        p->previous->next = p->next->previous = p;
+    }
+    
+    p->channel = channel;
+    do{
+        pthread_cond_wait(&p->cond, &kernel_access);
+    }while(p->channel);
+}
+
 static const struct luaL_Reg mylib [] =
 {
     {NULL,NULL},
