@@ -96,6 +96,15 @@ static void movevalues(lua_State* send, lua_State* rec)
             }
             case LUA_TTABLE:
             {
+                //shallow copy
+                lua_newtable(rec);
+                lua_pushnil(send);
+                while (lua_next(send, i) != 0)
+                {
+                    lua_insert(send, 1);
+                    lua_xmove(send, rec, 2);
+                    lua_settable(rec, 1);
+                }
                 break;
             }
             default:
@@ -104,14 +113,14 @@ static void movevalues(lua_State* send, lua_State* rec)
     }
 }
 
-static Proc* searchmatch(const char *channel, Proc **list)
+static Proc *searchmatch(const char *channel, Proc **list)
 {
     Proc *node;
-    for(node = *list; node != NULL; node = node->next)
+    for (node = *list; node != NULL; node = node->next)
     {
-        if(strcmp(channel, node->channel) == 0)
+        if (strcmp(channel, node->channel) == 0)
         {
-            if(*list == node)
+            if (*list == node) 
                 *list = (node->next == node) ? NULL : node->next;
             node->previous->next = node->next;
             node->next->previous = node->previous;
@@ -138,6 +147,7 @@ static void waitonlist(lua_State *L, const char *channel, Proc **list)
     
     p->channel = channel;
     do{
+        printf("\nwaiting signal [%s]\n",p->channel);
         pthread_cond_wait(&p->cond, &kernel_access);
     }while(p->channel);
 }
@@ -152,10 +162,12 @@ static int ll_send(lua_State *L)
     {
         movevalues(L, p->L);
         p->channel = NULL;
+        printf("Wake up %s receive\n",channel);
         pthread_cond_signal(&p->cond);
     }
     else
     {
+        printf("%s send wait on\n",channel);
         waitonlist(L, channel, &waitsend);
     }
     pthread_mutex_unlock(&kernel_access);
@@ -167,20 +179,22 @@ static int ll_receive(lua_State *L)
     Proc *p;
     const char *channel = luaL_checkstring(L, 1);
     lua_settop(L, 1);
-
     pthread_mutex_lock(&kernel_access);
     p = searchmatch(channel, &waitsend);
     if(p)
     {
         movevalues(p->L, L);
         p->channel = NULL;
+        printf("Wake up %s send\n",channel);
         pthread_cond_signal(&p->cond);
     }
     else
     {
+        printf("%s receive wait on\n",channel);
         waitonlist(L, channel, &waitreceive);
     }
-    
+    pthread_mutex_unlock(&kernel_access);
+    return lua_gettop(L) - 1;
 }
 
 
@@ -203,7 +217,6 @@ static void *ll_thread(void *arg)
 
     if(lua_pcall(L, 0, 0, 0) != LUA_OK)
         error(L, "thread error: %s", lua_tostring(L, -1));
-
     pthread_cond_destroy(&getself(L)->cond);
     lua_close(L);
     return NULL; 
@@ -220,9 +233,14 @@ static int ll_start(lua_State *L)
     if(luaL_loadstring(L1, chunk) != LUA_OK)
         error(L, "error in thread body: %s", lua_tostring(L1, -1));
     if(pthread_create(&thread, NULL, ll_thread, L1) != LUA_OK)
-        error(L, "unable to create new thread"); 
+        error(L, "unable to create new thread");
     pthread_detach(thread);
     return 0;
+}
+
+static int ll_yieldtest(lua_State *L)
+{
+    lua_yield(L, 1);
 }
 
 static int ll_exit(lua_State *L)
