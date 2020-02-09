@@ -305,7 +305,6 @@ int main()
 {
     lua_State *L = luaL_newstate();
     luaL_openlibs(L);
-      (L);
     luaL_openlxplib(L);
     if(luaL_dofile(L, "chapter32.lua") != LUA_OK)
     {
