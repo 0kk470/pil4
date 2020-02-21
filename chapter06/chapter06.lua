@@ -49,35 +49,28 @@ end
 ---要计算从n个元素中选出m个组成的组合C(n,m)。可以先将第一个元素加到结果集中，然后计算其他元素的C(n - 1,m - 1)；
 ---然后从结果集中删掉第一个元素，再计算其他所有剩余元素的C(n - 1, m)。
 ---当n < m 时，组合不存在；当 m = 0 时，只有一种组合（一个元素都没有）
-local result = {}
-local function Combination(a,firstIndex,curLen,tarLen)
-    if curLen > tarLen then
-        return
-    end
-    local len = #a
-    if curLen == tarLen then
-        for i = 1,len do
-            if result[i] then
-                io.write(a[i]," ")
+local isContain = {}
+local function Combination(a,index)
+    if index == #a + 1 then
+        io.write("{ ")
+        for k,v in pairs(isContain) do
+            if v then
+                io.write(a[k]," ")
             end
         end
+        io.write("}")
         io.write("\n")
         print()
-        return
+    else
+        isContain[index] = true
+        Combination(a,index + 1)
+        isContain[index] = false
+        Combination(a,index + 1)
     end
-    if firstIndex > len then
-        return
-    end
-    result[firstIndex] = true
-    Combination(a,firstIndex + 1 ,curLen + 1,tarLen)
-    result[firstIndex] = false
-    Combination(a,firstIndex + 1,curLen,tarLen )
 end
 
 local function printAllCombinations(a)
-    for i = 1,#a do
-        Combination(a,1,0,i)
-    end
+    Combination(a,1)
 end
 
 local a = {1,2,3,4,5}
