@@ -54,16 +54,33 @@ print(hammingweight(math.tointeger(2^32)))
 
 --- 练习13.5 编写一个函数来测试一个给定整数的二进制表示是否是一个回文数
 
---local function ispali(n)
---    assert(isinteger(n))
---    local o = n
---    local a = {}
---    while n ~= 0 and n ~= 1 do
---        a[#a + 1] = math.modf()
---    end
---    print(tonumber(n,2))
---end
---print(tonumber("11",2))
+local function ispali(n)
+   assert(isinteger(n))
+   local array = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+   if n < 0 then
+      array[#array] = 1
+   end
+   n = math.abs(n);
+   local index = 1
+   while n ~= 0 do
+      array[index] = math.fmod(n, 2)
+      index = index + 1
+      n = n // 2
+   end
+   local mid = #array // 2
+   for i = 1, mid do
+      if array[i] ~= array[#array - i + 1] then
+         return false
+      end
+   end
+   return true
+end
+print("isPali : " .. tostring(ispali(1)))
+print("isPali : " .. tostring(ispali(2)))
+print("isPali : " .. tostring(ispali(3)))
+print("isPali : " .. tostring(ispali((1 << 1) + (1 << 30))))
+print("isPali : " .. tostring(ispali(-1)))
+print("isPali : " .. tostring(ispali(-8)))
 
 --- 练习13.6 用lua实现一个bit数组。它应该支持下列操作
 --- ● newBitArray(n) (创建一个有n个bit的数组)
