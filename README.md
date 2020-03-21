@@ -58,19 +58,19 @@ Lua程序设计第四版习题答案(Pil4 Exercise Solutions)
 + [chapter26](https://github.com/0kk470/Lua-4th/blob/master/chapter26/chapter26.lua)
 
 ## Part IV. C API
-+ [chapter27](https://github.com/0kk470/Lua-4th/blob/master/chapter27/chapter27.lua)
++ [chapter27](https://github.com/0kk470/Lua-4th/blob/master/chapter27)
 
-+ [chapter28](https://github.com/0kk470/Lua-4th/blob/master/chapter28/chapter28.lua)
++ [chapter28](https://github.com/0kk470/Lua-4th/blob/master/chapter28)
 
-+ [chapter29](https://github.com/0kk470/Lua-4th/blob/master/chapter29/chapter29.lua)
++ [chapter29](https://github.com/0kk470/Lua-4th/blob/master/chapter29)
 
-+ [chapter30](https://github.com/0kk470/Lua-4th/blob/master/chapter30/chapter30.lua)
++ [chapter30](https://github.com/0kk470/Lua-4th/blob/master/chapter30)
 
-+ [chapter31](https://github.com/0kk470/Lua-4th/blob/master/chapter31/chapter31.lua)
++ [chapter31](https://github.com/0kk470/Lua-4th/blob/master/chapter31)
 
-+ [chapter32](https://github.com/0kk470/Lua-4th/blob/master/chapter32/chapter32.lua)
++ [chapter32](https://github.com/0kk470/Lua-4th/blob/master/chapter32)
 
-+ [chapter33](https://github.com/0kk470/Lua-4th/blob/master/chapter33/chapter33.lua)
++ [chapter33](https://github.com/0kk470/Lua-4th/blob/master/chapter33)
 
 ### Others
 + [compile lua via visual studio](https://github.com/0kk470/lua-on-visual-studio)
