@@ -27,6 +27,25 @@ print(umod(3 << 62,3 << 62))
 print(umod(12345,3 << 62))
 
 --- 练习13.2 请用不同的方式实现对Lua整形数值的二进制的位数计算
+local function countdigit(n)
+   assert(isinteger(n))
+   local cnt = 0
+   if n < 0 then
+      n = -n
+   end
+   while n ~= 0 do
+      cnt = cnt + 1
+      n = n >> 1
+   end
+   return cnt
+end
+
+print("digit: " .. countdigit(0))
+print("digit: " .. countdigit(-128))
+print("digit: " .. countdigit(1))
+print("digit: " .. countdigit(2))
+print("digit: " .. countdigit(3))
+print("digit: " .. countdigit(1025))
 
 --- 练习13.3 如何判断一个给定的整数是2的幂次方?
 local function checkpower2(n)
