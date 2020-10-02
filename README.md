@@ -58,19 +58,19 @@ Lua程序设计第四版习题答案(Pil4 Exercise Solutions)
 + [Chapter26 : Interlude: Multithreading with Coroutines (TODO)](https://github.com/0kk470/Lua-4th/blob/master/chapter26/chapter26.lua)
 
 ## Part IV. C API
-+ [Chapter27 : An Overview of the C API](https://github.com/0kk470/Lua-4th/blob/master/chapter27/chapter27.lua)
++ [Chapter27 : An Overview of the C API](https://github.com/0kk470/Lua-4th/blob/master/chapter27)
 
-+ [Chapter28 : Extending Your Application](https://github.com/0kk470/Lua-4th/blob/master/chapter28/chapter28.lua)
++ [Chapter28 : Extending Your Application](https://github.com/0kk470/Lua-4th/blob/master/chapter28)
 
-+ [Chapter29 : Calling C from Lua](https://github.com/0kk470/Lua-4th/blob/master/chapter29/chapter29.lua)
++ [Chapter29 : Calling C from Lua](https://github.com/0kk470/Lua-4th/blob/master/chapter29)
 
-+ [Chapter30 : Techniques for Writing C Functions](https://github.com/0kk470/Lua-4th/blob/master/chapter30/chapter30.lua)
++ [Chapter30 : Techniques for Writing C Functions](https://github.com/0kk470/Lua-4th/blob/master/chapter30)
 
-+ [Chapter31 : User-Defined Types in C](https://github.com/0kk470/Lua-4th/blob/master/chapter31/chapter31.lua)
++ [Chapter31 : User-Defined Types in C](https://github.com/0kk470/Lua-4th/blob/master/chapter31)
 
-+ [Chapter32 : Managing Resources](https://github.com/0kk470/Lua-4th/blob/master/chapter32/chapter32.lua)
++ [Chapter32 : Managing Resources](https://github.com/0kk470/Lua-4th/blob/master/chapter32)
 
-+ [Chapter33 : Threads and States](https://github.com/0kk470/Lua-4th/blob/master/chapter33/chapter33.lua)
++ [Chapter33 : Threads and States](https://github.com/0kk470/Lua-4th/blob/master/chapter33)
 
 ### Others
 + [compile lua via visual studio](https://github.com/0kk470/lua-on-visual-studio)

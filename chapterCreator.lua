@@ -66,12 +66,13 @@ end
 local function updateReadMe()
     local f = io.open("README.md", 'w')
     local fmtText = "+ [Chapter%02d : %s](https://github.com/0kk470/Lua-4th/blob/master/chapter%02d/chapter%02d.lua)"
+	local fmtText_capi = "+ [Chapter%02d : %s](https://github.com/0kk470/Lua-4th/blob/master/chapter%02d)"
     if f then
         print("update readme " .. tostring(f))
         f:write("# Lua-4th\n\nLua程序设计第四版习题答案(Pil4 Exercise Solutions) ", "\n", "\n")
         f:write("## Part I. Basics", "\n")
         for i = 1, iChapterNum do
-            f:write(string.format(fmtText, i,tChapterName[i], i, i), "\n", "\n")
+            f:write(string.format(i >= 27 and fmtText_capi or fmtText, i,tChapterName[i], i, i), "\n", "\n")
             if i == 8 then
                 f:write("## Part II. Real Programming", "\n")
             elseif i == 17 then
