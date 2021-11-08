@@ -1,5 +1,5 @@
 #include <pthread.h>
-
+#include <time.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -9,7 +9,9 @@ extern "C"
 #include "../lua_src/lauxlib.h"
 #include "../lua_src/lualib.h"
 }
-
+#include<stack>
+#include <windows.h>
+using namespace std;
 void error(lua_State *L, const char *fmt,...)
 {
     va_list argp;
@@ -152,6 +154,37 @@ static void waitonlist(lua_State *L, const char *channel, Proc **list)
     }while(p->channel);
 }
 
+static int waitTime(lua_State *L, const char *channel, Proc **list, int timeInMs)
+{
+    Proc *p = getself(L);
+    if(*list == NULL)
+    {
+        *list = p;
+        p->previous = p->next = p;
+    }
+    else
+    {
+        p->previous = (*list)->previous;
+        p->next = *list;
+        p->previous->next = p->next->previous = p;
+    }
+    
+    p->channel = channel;
+    struct timespec timeToWait;
+    struct timeval now;
+    int rt;
+
+    mingw_gettimeofday(&now,NULL);
+
+    timeToWait.tv_sec = now.tv_sec;
+    timeToWait.tv_nsec = (now.tv_usec + 1000UL * timeInMs) * 1000UL;
+    int ret = pthread_cond_timedwait(&p->cond, &kernel_access, &timeToWait);
+    if (ret != ETIMEDOUT)
+        printf("ret %d", ret);
+    else
+        printf("send %s outoftime!\n", channel);
+}
+
 static int ll_send(lua_State *L)
 {
     Proc *p;
@@ -167,8 +200,8 @@ static int ll_send(lua_State *L)
     }
     else
     {
-        printf("%s send wait on\n",channel);
-        waitonlist(L, channel, &waitsend);
+        printf("%s send wait time 500ms\n",channel);
+        waitTime(L,channel, &waitsend, 2000);
     }
     pthread_mutex_unlock(&kernel_access);
     return 0;

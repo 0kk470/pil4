@@ -3,74 +3,74 @@
 Lua程序设计第四版习题答案(Pil4 Exercise Solutions) 
 
 ## Part I. Basics
-+ [chapter01](https://github.com/0kk470/Lua-4th/blob/master/chapter01/chapter01.lua)
++ [Chapter01 : Getting Started](https://github.com/0kk470/Lua-4th/blob/master/chapter01/chapter01.lua)
 
-+ [chapter02](https://github.com/0kk470/Lua-4th/blob/master/chapter02/chapter02.lua)
++ [Chapter02 : Interlude: The Eight-Queen Puzzle](https://github.com/0kk470/Lua-4th/blob/master/chapter02/chapter02.lua)
 
-+ [chapter03](https://github.com/0kk470/Lua-4th/blob/master/chapter03/chapter03.lua)
++ [Chapter03 : Numbers](https://github.com/0kk470/Lua-4th/blob/master/chapter03/chapter03.lua)
 
-+ [chapter04](https://github.com/0kk470/Lua-4th/blob/master/chapter04/chapter04.lua)
++ [Chapter04 : Strings](https://github.com/0kk470/Lua-4th/blob/master/chapter04/chapter04.lua)
 
-+ [chapter05](https://github.com/0kk470/Lua-4th/blob/master/chapter05/chapter05.lua)
++ [Chapter05 : Tables](https://github.com/0kk470/Lua-4th/blob/master/chapter05/chapter05.lua)
 
-+ [chapter06](https://github.com/0kk470/Lua-4th/blob/master/chapter06/chapter06.lua)
++ [Chapter06 : Functions](https://github.com/0kk470/Lua-4th/blob/master/chapter06/chapter06.lua)
 
-+ [chapter07](https://github.com/0kk470/Lua-4th/blob/master/chapter07/chapter07.lua)
++ [Chapter07 : The External World](https://github.com/0kk470/Lua-4th/blob/master/chapter07/chapter07.lua)
 
-+ [chapter08](https://github.com/0kk470/Lua-4th/blob/master/chapter08/chapter08.lua)
++ [Chapter08 : Filling Some Gaps](https://github.com/0kk470/Lua-4th/blob/master/chapter08/chapter08.lua)
 
 ## Part II. Real Programming
-+ [chapter09](https://github.com/0kk470/Lua-4th/blob/master/chapter09/chapter09.lua)
++ [Chapter09 : Closures](https://github.com/0kk470/Lua-4th/blob/master/chapter09/chapter09.lua)
 
-+ [chapter10](https://github.com/0kk470/Lua-4th/blob/master/chapter10/chapter10.lua)
++ [Chapter10 : Pattern Matching](https://github.com/0kk470/Lua-4th/blob/master/chapter10/chapter10.lua)
 
-+ [chapter11](https://github.com/0kk470/Lua-4th/blob/master/chapter11/chapter11.lua)
++ [Chapter11 : Interlude: Most Frequent Words](https://github.com/0kk470/Lua-4th/blob/master/chapter11/chapter11.lua)
 
-+ [chapter12](https://github.com/0kk470/Lua-4th/blob/master/chapter12/chapter12.lua)
++ [Chapter12 : Date and Time](https://github.com/0kk470/Lua-4th/blob/master/chapter12/chapter12.lua)
 
-+ [chapter13](https://github.com/0kk470/Lua-4th/blob/master/chapter13/chapter13.lua)
++ [Chapter13 : Bits and Bytes](https://github.com/0kk470/Lua-4th/blob/master/chapter13/chapter13.lua)
 
-+ [chapter14](https://github.com/0kk470/Lua-4th/blob/master/chapter14/chapter14.lua)
++ [Chapter14 : Data Structures](https://github.com/0kk470/Lua-4th/blob/master/chapter14/chapter14.lua)
 
-+ [chapter15](https://github.com/0kk470/Lua-4th/blob/master/chapter15/chapter15.lua)
++ [Chapter15 : Data Files and Serialization (FIXME)](https://github.com/0kk470/Lua-4th/blob/master/chapter15/chapter15.lua)
 
-+ [chapter16](https://github.com/0kk470/Lua-4th/blob/master/chapter16/chapter16.lua)
++ [Chapter16 : Compilation, Execution, and Errors](https://github.com/0kk470/Lua-4th/blob/master/chapter16/chapter16.lua)
 
-+ [chapter17](https://github.com/0kk470/Lua-4th/blob/master/chapter17/chapter17.lua)
++ [Chapter17 : Modules and Packages](https://github.com/0kk470/Lua-4th/blob/master/chapter17/chapter17.lua)
 
 ## Part III. Lua-isms
-+ [chapter18](https://github.com/0kk470/Lua-4th/blob/master/chapter18/chapter18.lua)
++ [Chapter18 : Iterators and the Generic for](https://github.com/0kk470/Lua-4th/blob/master/chapter18/chapter18.lua)
 
-+ [chapter19](https://github.com/0kk470/Lua-4th/blob/master/chapter19/chapter19.lua)
++ [Chapter19 : Interlude: Markov Chain Algorithm](https://github.com/0kk470/Lua-4th/blob/master/chapter19/chapter19.lua)
 
-+ [chapter20](https://github.com/0kk470/Lua-4th/blob/master/chapter20/chapter20.lua)
++ [Chapter20 : Metatables and Metamethods](https://github.com/0kk470/Lua-4th/blob/master/chapter20/chapter20.lua)
 
-+ [chapter21](https://github.com/0kk470/Lua-4th/blob/master/chapter21/chapter21.lua)
++ [Chapter21 : Object-Oriented Programming](https://github.com/0kk470/Lua-4th/blob/master/chapter21/chapter21.lua)
 
-+ [chapter22](https://github.com/0kk470/Lua-4th/blob/master/chapter22/chapter22.lua)
++ [Chapter22 : The Environment](https://github.com/0kk470/Lua-4th/blob/master/chapter22/chapter22.lua)
 
-+ [chapter23](https://github.com/0kk470/Lua-4th/blob/master/chapter23/chapter23.lua)
++ [Chapter23 : Garbage](https://github.com/0kk470/Lua-4th/blob/master/chapter23/chapter23.lua)
 
-+ [chapter24](https://github.com/0kk470/Lua-4th/blob/master/chapter24/chapter24.lua)
++ [Chapter24 : Coroutines (TODO)](https://github.com/0kk470/Lua-4th/blob/master/chapter24/chapter24.lua)
 
-+ [chapter25](https://github.com/0kk470/Lua-4th/blob/master/chapter25/chapter25.lua)
++ [Chapter25 : Reflection (TODO)](https://github.com/0kk470/Lua-4th/blob/master/chapter25/chapter25.lua)
 
-+ [chapter26](https://github.com/0kk470/Lua-4th/blob/master/chapter26/chapter26.lua)
++ [Chapter26 : Interlude: Multithreading with Coroutines (TODO)](https://github.com/0kk470/Lua-4th/blob/master/chapter26/chapter26.lua)
 
 ## Part IV. C API
-+ [chapter27](https://github.com/0kk470/Lua-4th/blob/master/chapter27)
++ [Chapter27 : An Overview of the C API](https://github.com/0kk470/Lua-4th/blob/master/chapter27)
 
-+ [chapter28](https://github.com/0kk470/Lua-4th/blob/master/chapter28)
++ [Chapter28 : Extending Your Application](https://github.com/0kk470/Lua-4th/blob/master/chapter28)
 
-+ [chapter29](https://github.com/0kk470/Lua-4th/blob/master/chapter29)
++ [Chapter29 : Calling C from Lua](https://github.com/0kk470/Lua-4th/blob/master/chapter29)
 
-+ [chapter30](https://github.com/0kk470/Lua-4th/blob/master/chapter30)
++ [Chapter30 : Techniques for Writing C Functions](https://github.com/0kk470/Lua-4th/blob/master/chapter30)
 
-+ [chapter31](https://github.com/0kk470/Lua-4th/blob/master/chapter31)
++ [Chapter31 : User-Defined Types in C](https://github.com/0kk470/Lua-4th/blob/master/chapter31)
 
-+ [chapter32](https://github.com/0kk470/Lua-4th/blob/master/chapter32)
++ [Chapter32 : Managing Resources](https://github.com/0kk470/Lua-4th/blob/master/chapter32)
 
-+ [chapter33](https://github.com/0kk470/Lua-4th/blob/master/chapter33)
++ [Chapter33 : Threads and States](https://github.com/0kk470/Lua-4th/blob/master/chapter33)
 
 ### Others
 + [compile lua via visual studio](https://github.com/0kk470/lua-on-visual-studio)
