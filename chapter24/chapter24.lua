@@ -1,28 +1,28 @@
-local lib = require "async-lib"
+-- local lib = require "async-lib"
 
-function run (code)
-    local co = coroutine.wrap(function ()
-        code()
-        lib.stop() -- finish event loop when done
-    end)
-    co() -- start coroutine
-    lib.runloop() -- start event loop
-end
+-- function run (code)
+--     local co = coroutine.wrap(function ()
+--         code()
+--         lib.stop() -- finish event loop when done
+--     end)
+--     co() -- start coroutine
+--     lib.runloop() -- start event loop
+-- end
 
-function putline (stream, line)
-    local co = coroutine.running() -- calling coroutine
-    local callback = (function () coroutine.resume(co) end)
-    lib.writeline(stream, line, callback)
-    coroutine.yield()
-end
+-- function putline (stream, line)
+--     local co = coroutine.running() -- calling coroutine
+--     local callback = (function () coroutine.resume(co) end)
+--     lib.writeline(stream, line, callback)
+--     coroutine.yield()
+-- end
 
-function getline (stream, line)
-    local co = coroutine.running() -- calling coroutine
-    local callback = (function (l) coroutine.resume(co, l) end)
-    lib.readline(stream, callback)
-    local line = coroutine.yield()
-    return line
-end
+-- function getline (stream, line)
+--     local co = coroutine.running() -- calling coroutine
+--     local callback = (function (l) coroutine.resume(co, l) end)
+--     lib.readline(stream, callback)
+--     local line = coroutine.yield()
+--     return line
+-- end
 
 
 
@@ -39,17 +39,63 @@ local consumer = coroutine.create(function (x)
     print(x) --the first time into this func
     while true do
         local val = coroutine.yield()
-        print(val)
+        print("cosumer get(corutine): " .. val)
     end
 end)
 
-producer(consumer)
+--producer(consumer)
 
 ---练习24.2 练习6.5要求编写一个函数来输出指定数组元素的所有组合。请使用协程把该函数修改为组合的生成器。
 ---该生成器的用法如下
 --for c in combinations({"a","b","c"}, 2) do
 --    printResult(c)
 --end
+local function combination_num(c)
+    local cnt = 0
+    for _,v in pairs(c) do
+        if v then cnt = cnt + 1 end
+    end
+    return cnt
+end
+
+local function gen_combination(a, index, maxCnt, dic_isContain)
+    if combination_num(dic_isContain) == maxCnt or index == #a + 1  then
+        local res = {}
+        res[#res + 1] = "{ "
+        for k,v in pairs(dic_isContain) do
+            if v then
+                res[#res + 1] = a[k]
+                res[#res + 1] = " "
+            end
+        end
+        res[#res + 1] = "}"
+        res[#res + 1] = "\n"
+        local str = table.concat(res)
+        print("ssssss" .. str)
+        coroutine.yield(str)
+    else
+        dic_isContain[index] = true
+        gen_combination(a, index + 1, maxCnt, dic_isContain)
+        dic_isContain[index] = false
+        gen_combination(a, index + 1, maxCnt, dic_isContain)
+    end
+end
+
+function combinations(a, cnt)
+    local co = coroutine.create(
+        function() 
+            gen_combination(a, 1, cnt, {}) 
+        end
+        )
+    return function() 
+        local c = coroutine.resume(co)
+        return c;
+    end
+end
+
+for c in combinations({"a","b","c"}, 2) do
+   print(c)
+end
 
 ---练习24.3 在示例24.5中，函数getline和putline每一次调用都会产生一个新的闭包。请使用记忆机制来避免这种资源浪费。
 
