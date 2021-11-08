@@ -106,15 +106,45 @@ print("isPali : " .. tostring(ispali(-8)))
 --- ● setBit(a ,n ,v) (将boolean值 v 赋值给数组a的n位bit)
 --- ● testBit(a ,n) (返回一个n位bit的boolean值v)
 local function newBitArray(n)
+   assert(math.type(n) == "integer", " 'n' is not an integer")
+   assert(n >= 1, " 'n' shall not be smaller than 1")
    local array = {}
-   for i = 1,n do array[i] = false end
+   for i = 1, n do array[i] = false end
    return array
 end
 
 local function setBit(a,n,v) 
-   if a and a[n] then a[n] = v end
+   assert(a ~= nil, "array is null")
+   assert(type(a) == "table", string.format("wrong param type:[%s], 'a' must be an array.", type(a)) )
+   assert(math.type(n) == "integer", "n is not an integer")
+   assert(#a >= n and n >= 1, "array index is out of range")
+   assert(type(v) == "boolean", string.format("wrong param type:[%s], 'v' must be a boolean.", type(v)) )
+   a[n] = v
 end
 
-local function testBit(a,n) 
-  return a and a[n]
+local function testBit(a,n)
+   assert(type(a) == "table", string.format("wrong param type:[%s], 'a' must be an array.", type(a)) )
+   assert(math.type(n) == "integer", " 'n' is not an integer")
+   assert(#a >= n and n >= 1, "array index is out of range")
+   return a and a[n]
+end
+
+--newBitArray(-1)
+--newBitArray(0)
+--setBit("ss")
+--setBit(nil, 1, 1)
+--setBit({},"str",true)
+--setBit(newBitArray(4),5,true)
+--setBit(newBitArray(4), 4, "str")
+
+local arrTest = newBitArray(3)
+
+for i = 1, #arrTest do 
+   setBit(arrTest,i,true) 
+end
+
+setBit(arrTest, 2, false)
+
+for i = 1, #arrTest do 
+   print(testBit(arrTest, i))
 end
