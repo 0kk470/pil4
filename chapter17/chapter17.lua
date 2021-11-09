@@ -36,7 +36,7 @@ print("testmod1 == mod1: ".. tostring(testmod1 == mod1))
 -- 如果在lua的搜索path中添加一项绝对路径的文件名，会导致require一个不存在的模块时，这个模块都会搜索到固定文件名的文件作为它导入的模块
 -- 并且如果模块名不一样，缓存的table也不一样，就算加载了相同固定路径的module，在内存中也是两份独立的副本
 -- 在极端情况下还是有用，相当于始终会有默认的模块被加载，可以用这套机制来拓展require函数
--- 详细可参见 https://www.lua.org/pil/8.1.html
+-- 详细可参见 https://www.lua.org/pil/8.1.html 最后一段说明
 
 
 ---练习17.4 编写一个同时搜索Lua文件和C标准库的搜索器。
