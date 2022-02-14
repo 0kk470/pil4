@@ -64,6 +64,23 @@ print( CalculatePolynomial2({1,2,3},2) )
 
 ---练习5.6 请编写一个函数，该函数用于测试指定的表是否为有效的序列
 local function isValidSequence(a)
+    if type(a) ~= "table" then return false end
+
+    local numKeys = 0
+    for _ in ipairs(a) do numKeys = numKeys + 1 end
+
+    for k in pairs(a) do
+        if math.type(k) == "integer" and k > numKeys then
+            return false
+        end
+    end
+    
+    return true
+end
+
+
+--旧的比较方式不太严谨 参见https://github.com/0kk470/pil4/issues/9
+local function isArray(a)
    if type(a) ~= "table" then
       return false
    end
@@ -83,6 +100,7 @@ print(isValidSequence({nil,2,3,4}))             --false
 print(isValidSequence({nil,2, a = "b",nil}))    --false
 print(isValidSequence("str"))                   --false
 print(isValidSequence(nil))                     --false
+print(isValidSequence({1,a = 2,3,4}))           --true
 
 
 ---练习5.7 请编写一个函数，该函数将指定列表的所有元素插入到另一个列表的指定位置
