@@ -141,8 +141,8 @@ function table.my_fastConcat(t) --这个效率会高的多
       str = tostring(t[i])
       temp = { string.byte(tostring(t[i]), 1, #str) } 
       for j = 1,#temp do
-	     result[#result + 1] = temp[j]
-	  end
+         result[#result + 1] = temp[j]
+      end
    end
    return string.char(table.unpack(result))
 end
@@ -150,7 +150,7 @@ end
 local function test5_8()
     local a = {}
     for i = 1,200000 do
-       a[i] = "abc"
+         a[i] = "abc"
     end
     local startTime = os.time()
     local str1 = table.concat(a)
