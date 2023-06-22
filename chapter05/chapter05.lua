@@ -116,7 +116,6 @@ local function test5_7()
     local des = {1,2,3,7,8,9}
     local result = ""
     InsertAllToPos(source,des,4)
-	
     for i = 1,#des do 
        result = result .. des[i] .." "
     end
